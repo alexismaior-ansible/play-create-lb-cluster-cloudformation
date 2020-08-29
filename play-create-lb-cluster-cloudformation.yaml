@@ -1,0 +1,21 @@
+- name: Create LB cluster in aws CloudFormation
+  hosts: localhost
+  gather_facts: no
+  tasks:
+    - name: create Stack
+      cloudformation:
+        stack_name: "ansible-k8s-stack"
+        state: "present"
+        region: "us-west-2"
+        on_create_failure: DO_NOTHING
+        template: "files/Autoscale_multiAZ_linux_template.yaml"
+        template_parameters:
+          KeyName: "alexis"
+          OperatorEMail: "alexisbraga@gmail.com"
+          InstanceType: "t2.micro"
+          VpcId: vpc-0c011b4fce0596d13
+          Subnets: subnet-014902eb3dce3808e,subnet-0432587c3227a6aa0
+        tags:
+          Stack: "ansible-k8s-stack"
+      register: stack_creation
+    - debug: msg={{ stack_creation.stack_outputs }}
