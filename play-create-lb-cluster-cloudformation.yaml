@@ -18,4 +18,4 @@
         tags:
           Stack: "ansible-k8s-stack"
       register: stack_creation
-    - debug: msg={{ stack_creation.stack_outputs }}
+    - debug: msg={{ stack_creation.stack_outputs }} 
